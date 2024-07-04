@@ -54,8 +54,20 @@ export const createDAVClient = async (params: {
   authMethod?: 'Basic' | 'Oauth' | 'Digest' | 'Custom';
   authFunction?: (credentials: DAVCredentials) => Promise<Record<string, string>>;
   defaultAccountType?: DAVAccount['accountType'] | undefined;
+  rootUrl?: string;
+  principalUrl?: string;
+  homeUrl?: string;
 }) => {
-  const { serverUrl, credentials, authMethod, defaultAccountType, authFunction } = params;
+  const {
+    serverUrl,
+    credentials,
+    authMethod,
+    defaultAccountType,
+    authFunction,
+    rootUrl,
+    principalUrl,
+    homeUrl,
+  } = params;
 
   let authHeaders: Record<string, string> = {};
   switch (authMethod) {
@@ -79,7 +91,14 @@ export const createDAVClient = async (params: {
 
   const defaultAccount = defaultAccountType
     ? await rawCreateAccount({
-        account: { serverUrl, credentials, accountType: defaultAccountType },
+        account: {
+          serverUrl,
+          credentials,
+          accountType: defaultAccountType,
+          rootUrl,
+          principalUrl,
+          homeUrl,
+        },
         headers: authHeaders,
       })
     : undefined;
@@ -220,6 +239,7 @@ export const createDAVClient = async (params: {
     createVCard,
     updateVCard,
     deleteVCard,
+    defaultAccount,
   };
 };
 

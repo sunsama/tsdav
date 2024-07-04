@@ -140,18 +140,24 @@ export const createAccount = async (params: {
     headersToExclude,
   } = params;
   const newAccount: DAVAccount = { ...account };
-  newAccount.rootUrl = await serviceDiscovery({
-    account,
-    headers: excludeHeaders(headers, headersToExclude),
-  });
-  newAccount.principalUrl = await fetchPrincipalUrl({
-    account: newAccount,
-    headers: excludeHeaders(headers, headersToExclude),
-  });
-  newAccount.homeUrl = await fetchHomeUrl({
-    account: newAccount,
-    headers: excludeHeaders(headers, headersToExclude),
-  });
+  newAccount.rootUrl =
+    newAccount.rootUrl ||
+    (await serviceDiscovery({
+      account,
+      headers: excludeHeaders(headers, headersToExclude),
+    }));
+  newAccount.principalUrl =
+    newAccount.principalUrl ||
+    (await fetchPrincipalUrl({
+      account: newAccount,
+      headers: excludeHeaders(headers, headersToExclude),
+    }));
+  newAccount.homeUrl =
+    newAccount.homeUrl ||
+    (await fetchHomeUrl({
+      account: newAccount,
+      headers: excludeHeaders(headers, headersToExclude),
+    }));
   // to load objects you must first load collections
   if (loadCollections || loadObjects) {
     if (account.accountType === 'caldav') {

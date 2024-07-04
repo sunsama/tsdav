@@ -378,6 +378,9 @@ declare const createDAVClient: (params: {
     authMethod?: "Basic" | "Oauth" | "Digest" | "Custom" | undefined;
     authFunction?: ((credentials: DAVCredentials) => Promise<Record<string, string>>) | undefined;
     defaultAccountType?: DAVAccount['accountType'] | undefined;
+    rootUrl?: string | undefined;
+    principalUrl?: string | undefined;
+    homeUrl?: string | undefined;
 }) => Promise<{
     davRequest: (params0: {
         url: string;
@@ -565,6 +568,7 @@ declare const createDAVClient: (params: {
         headers?: Record<string, string> | undefined;
         headersToExclude?: string[] | undefined;
     }) => Promise<Response>;
+    defaultAccount: DAVAccount | undefined;
 }>;
 declare class DAVClient {
     serverUrl: string;
@@ -899,6 +903,9 @@ declare const _default: {
         authMethod?: "Basic" | "Oauth" | "Digest" | "Custom" | undefined;
         authFunction?: ((credentials: DAVCredentials) => Promise<Record<string, string>>) | undefined;
         defaultAccountType?: "caldav" | "carddav" | undefined;
+        rootUrl?: string | undefined;
+        principalUrl?: string | undefined;
+        homeUrl?: string | undefined;
     }) => Promise<{
         davRequest: (params0: {
             url: string;
@@ -1086,6 +1093,7 @@ declare const _default: {
             headers?: Record<string, string> | undefined;
             headersToExclude?: string[] | undefined;
         }) => Promise<Response>;
+        defaultAccount: DAVAccount | undefined;
     }>;
     DAVClient: typeof DAVClient;
     DAVNamespace: typeof DAVNamespace;
