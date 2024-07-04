@@ -1,6 +1,7 @@
 {
   "name": "tsdav",
-  "version": "2.0.9",
+  "version": "2.0.9-sunsama-1",
+  "private": true,
   "description": "WebDAV, CALDAV, and CARDDAV client for Nodejs and the Browser",
   "keywords": [
     "dav",
@@ -31,12 +32,13 @@
     "package.json"
   ],
   "scripts": {
-    "build": "yarn -s clean && rollup -c rollup.config.mjs && copyfiles package.json LICENSE README.md ./dist && rimraf ./dist/ts",
+    "build": "rollup -c rollup.config.mjs && copyfiles package.json LICENSE README.md ./dist && rimraf ./dist/ts",
     "clean": "rimraf dist*",
+    "prettier": "prettier --write .",
     "lint": "eslint src --ext .ts",
     "lintFix": "eslint src --ext .ts --fix",
-    "prepublishOnly": "yarn build",
-    "test": "echo \"temporarily disabled\" && exit 0",
+    "prepublishOnly": "npm run build",
+    "test": "npm run build && npm run prettier && npm run lint && npm run typecheck",
     "test:apple": "jest --testPathPattern=src/__tests__/integration/apple --runInBand",
     "test:baikal": "jest --testPathPattern=src/__tests__/integration/baikal --runInBand",
     "test:fastmail": "jest --testPathPattern=src/__tests__/integration/fastmail --runInBand",

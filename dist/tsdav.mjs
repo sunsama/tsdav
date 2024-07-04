@@ -1204,18 +1204,24 @@ const fetchHomeUrl = (params) => __awaiter(void 0, void 0, void 0, function* () 
 const createAccount = (params) => __awaiter(void 0, void 0, void 0, function* () {
     const { account, headers, loadCollections = false, loadObjects = false, headersToExclude, } = params;
     const newAccount = Object.assign({}, account);
-    newAccount.rootUrl = yield serviceDiscovery({
-        account,
-        headers: excludeHeaders(headers, headersToExclude),
-    });
-    newAccount.principalUrl = yield fetchPrincipalUrl({
-        account: newAccount,
-        headers: excludeHeaders(headers, headersToExclude),
-    });
-    newAccount.homeUrl = yield fetchHomeUrl({
-        account: newAccount,
-        headers: excludeHeaders(headers, headersToExclude),
-    });
+    newAccount.rootUrl =
+        newAccount.rootUrl ||
+            (yield serviceDiscovery({
+                account,
+                headers: excludeHeaders(headers, headersToExclude),
+            }));
+    newAccount.principalUrl =
+        newAccount.principalUrl ||
+            (yield fetchPrincipalUrl({
+                account: newAccount,
+                headers: excludeHeaders(headers, headersToExclude),
+            }));
+    newAccount.homeUrl =
+        newAccount.homeUrl ||
+            (yield fetchHomeUrl({
+                account: newAccount,
+                headers: excludeHeaders(headers, headersToExclude),
+            }));
     // to load objects you must first load collections
     if (loadCollections || loadObjects) {
         if (account.accountType === 'caldav') {
@@ -1377,7 +1383,7 @@ var authHelpers = /*#__PURE__*/Object.freeze({
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const createDAVClient = (params) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const { serverUrl, credentials, authMethod, defaultAccountType, authFunction } = params;
+    const { serverUrl, credentials, authMethod, defaultAccountType, authFunction, rootUrl, principalUrl, homeUrl, } = params;
     let authHeaders = {};
     switch (authMethod) {
         case 'Basic':
@@ -1399,7 +1405,14 @@ const createDAVClient = (params) => __awaiter(void 0, void 0, void 0, function* 
     }
     const defaultAccount = defaultAccountType
         ? yield createAccount({
-            account: { serverUrl, credentials, accountType: defaultAccountType },
+            account: {
+                serverUrl,
+                credentials,
+                accountType: defaultAccountType,
+                rootUrl,
+                principalUrl,
+                homeUrl,
+            },
             headers: authHeaders,
         })
         : undefined;
@@ -1503,6 +1516,7 @@ const createDAVClient = (params) => __awaiter(void 0, void 0, void 0, function* 
         createVCard: createVCard$1,
         updateVCard: updateVCard$1,
         deleteVCard: deleteVCard$1,
+        defaultAccount,
     };
 });
 class DAVClient {
