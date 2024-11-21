@@ -100,7 +100,6 @@ export const davRequest = async (params: {
     textFn: (value: any, parentElement: any) => {
       try {
         // This is needed for xml-js design reasons
-        // eslint-disable-next-line no-underscore-dangle
         const parentOfParent = parentElement._parent;
         const pOpKeys = Object.keys(parentOfParent);
         const keyNo = pOpKeys.length;

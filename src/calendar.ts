@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import getLogger from 'debug';
 import { ElementCompact } from 'xml-js';
 
@@ -147,11 +146,10 @@ export const fetchCalendars = async (params?: {
       .filter((r) => Object.keys(r.props?.resourcetype ?? {}).includes('calendar'))
       .filter((rc) => {
         // filter out none iCal format calendars.
-        const components: ICALObjects[] = Array.isArray(
-          rc.props?.supportedCalendarComponentSet.comp,
-        )
-          ? rc.props?.supportedCalendarComponentSet.comp.map((sc: any) => sc._attributes.name)
-          : [rc.props?.supportedCalendarComponentSet.comp?._attributes.name] || [];
+        const components: ICALObjects[] =
+          (Array.isArray(rc.props?.supportedCalendarComponentSet.comp)
+            ? rc.props?.supportedCalendarComponentSet.comp.map((sc: any) => sc._attributes.name)
+            : [rc.props?.supportedCalendarComponentSet.comp?._attributes.name]) || [];
         return components.some((c) => Object.values(ICALObjects).includes(c));
       })
       .map((rs) => {

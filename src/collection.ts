@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import getLogger from 'debug';
 import { ElementCompact } from 'xml-js';
 
@@ -207,7 +206,7 @@ export const smartCollectionSync: SmartCollectionSync = async <T extends DAVColl
     const deletedObjectUrls = objectResponses.filter((o) => o.status === 404).map((r) => r.href);
 
     const multiGetObjectResponse = changedObjectUrls.length
-      ? (await collection?.objectMultiGet?.({
+      ? ((await collection?.objectMultiGet?.({
           url: collection.url,
           props: {
             [`${DAVNamespaceShort.DAV}:getetag`]: {},
@@ -220,7 +219,7 @@ export const smartCollectionSync: SmartCollectionSync = async <T extends DAVColl
           objectUrls: changedObjectUrls,
           depth: '1',
           headers: excludeHeaders(headers, headersToExclude),
-        })) ?? []
+        })) ?? [])
       : [];
 
     const remoteObjects = multiGetObjectResponse.map((res) => {
@@ -229,8 +228,8 @@ export const smartCollectionSync: SmartCollectionSync = async <T extends DAVColl
         etag: res.props?.getetag,
         data:
           account?.accountType === 'caldav'
-            ? res.props?.calendarData?._cdata ?? res.props?.calendarData
-            : res.props?.addressData?._cdata ?? res.props?.addressData,
+            ? (res.props?.calendarData?._cdata ?? res.props?.calendarData)
+            : (res.props?.addressData?._cdata ?? res.props?.addressData),
       };
     });
 

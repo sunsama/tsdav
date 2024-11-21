@@ -47,7 +47,6 @@ import {
 import { defaultParam, getBasicAuthHeaders, getOauthHeaders } from './util/authHelpers';
 import { Optional } from './util/typeHelpers';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createDAVClient = async (params: {
   serverUrl: string;
   credentials: DAVCredentials;

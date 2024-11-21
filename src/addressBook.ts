@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import getLogger from 'debug';
 import { ElementCompact } from 'xml-js';
 
@@ -157,7 +156,7 @@ export const fetchVCards = async (params: {
         depth: '1',
         headers: excludeHeaders(headers, headersToExclude),
       })
-    ).map((res) => (res.ok ? res.href ?? '' : ''))
+    ).map((res) => (res.ok ? (res.href ?? '') : ''))
   )
     .map((url) => (url.startsWith('http') || !url ? url : new URL(url, addressBook.url).href))
     .filter(urlFilter)

@@ -4,7 +4,7 @@ import cjs from '@rollup/plugin-commonjs';
 import ts from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 export default [
   {
@@ -41,7 +41,7 @@ export default [
       ts({
         tsconfig: './tsconfig.build.json',
         declaration: true,
-        declarationDir: './ts',
+        declarationDir: './dist',
       }),
       cjs(),
       resolve({
@@ -75,7 +75,7 @@ export default [
     ],
   },
   {
-    input: './dist/ts/index.d.ts',
+    input: './dist/index.d.ts',
     output: [{ file: 'dist/tsdav.d.ts', format: 'es' }],
     plugins: [dts()],
   },
