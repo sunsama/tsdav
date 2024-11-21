@@ -7,7 +7,7 @@ This fork includes a way to send a `homeUrl` to `createDAVClient` and skip disco
 
 ## Development
 
-- `npm install --legacy-peer-deps` (originally this used `yarn`, but we prefer `npm`)
+- `npm ci --legacy-peer-deps` (originally this used `yarn`, but we prefer `npm`)
 - `npm test` (runs `build`, `prettier`, `lint`, and `tsc`)
 
 ## Updating

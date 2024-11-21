@@ -1,3 +1,4 @@
+/* eslint-disable no-redeclare */
 export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 export type NoUndefinedField<T> = { [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>> };
 export type Await<T> = T extends PromiseLike<infer U> ? U : T;
